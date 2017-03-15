@@ -88,5 +88,8 @@ EXPOSE 1935
 ADD sbin/entrypoint.sh /usr/sbin/entrypoint.sh
 ADD sbin/confd-reload-nginx.sh /usr/sbin/confd-reload-nginx.sh
 
+COPY sbin/show-streaming-infos.sh /usr/sbin/
+RUN chmod a+x /usr/sbin/show-streaming-infos.sh
+
 ENTRYPOINT ["/usr/sbin/entrypoint.sh"]
 CMD ["/usr/sbin/nginx", "-c", "/etc/nginx/nginx.conf"]

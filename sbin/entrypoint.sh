@@ -35,4 +35,8 @@ else
     confd -interval 10 -node $ETCD_URL &
 fi
 
+echo "The server is now ready to accept your rtmp stream !"
+
+/usr/sbin/show-streaming-infos.sh
+
 exec $@
