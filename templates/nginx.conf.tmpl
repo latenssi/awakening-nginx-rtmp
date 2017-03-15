@@ -151,6 +151,15 @@ rtmp {
 
         application pub_{{getv "/live/secret"}} {
             live on;
+
+            record all;
+            record_path /recordings;
+            # append current timestamp to each flv
+            record_unique on;
+
+            # publish only from localhost
+            allow publish 127.0.0.1;
+            deny publish all;
             drop_idle_publisher 5s;
             allow play 127.0.0.1;
             deny play all;
