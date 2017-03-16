@@ -1,7 +1,9 @@
 #!/bin/bash
 
-INFO_TOKEN=$(echo -n "info${PUBLISH_SECRET}" | openssl md5 -hex | perl -ne 's/\(stdin\)=\s+// && print')
-STATS_TOKEN=$(echo -n "stats${PUBLISH_SECRET}" | openssl md5 -hex | perl -ne 's/\(stdin\)=\s+// && print')
+INFO_TOKEN=$(echo -n "info${LIVE_SECRET}" | openssl md5 -hex | perl -ne 's/\(stdin\)=\s+// && print')
+STATS_TOKEN=$(echo -n "stats${LIVE_SECRET}" | openssl md5 -hex | perl -ne 's/\(stdin\)=\s+// && print')
+CTRL_TOKEN=$(echo -n "control${LIVE_SECRET}" | openssl md5 -hex | perl -ne 's/\(stdin\)=\s+// && print')
+
 
 echo "Stream infos:"
 echo "---------------------------------------------------"
@@ -20,3 +22,6 @@ echo "http://{ipadress}:{port}/p/${INFO_TOKEN}/info"
 
 echo -n "stats_url = "
 echo "http://{ipadress}:{port}/p/${STATS_TOKEN}/stats"
+
+echo -n "control_url = "
+echo "http://{ipadress}:{port}/p/${CTRL_TOKEN}/control"

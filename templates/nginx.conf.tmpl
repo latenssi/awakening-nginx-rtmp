@@ -129,6 +129,11 @@ http {
             rtmp_stat_stylesheet /info.xsl;
         }
 
+        location /secure/control {
+            internal;
+            rtmp_control all;
+        }
+
         location /info.xsl {
             root /www;
         }
@@ -146,7 +151,7 @@ rtmp {
         notify_method get;
 
         chunk_size 131072;
-        max_message 12M;
+        max_message 120M;
         buflen 2s;
 
         application pub_{{getv "/live/secret"}} {
@@ -157,10 +162,7 @@ rtmp {
             # append current timestamp to each flv
             record_unique on;
 
-            # publish only from localhost
-            allow publish 127.0.0.1;
-            deny publish all;
-            drop_idle_publisher 5s;
+            drop_idle_publisher 120s;
             allow play 127.0.0.1;
             deny play all;
 
@@ -180,6 +182,10 @@ rtmp {
 
             wait_key on;
             wait_video on;
+        }
+
+        application replays {
+            play /recordings;
         }
 
         application hls {
