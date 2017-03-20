@@ -182,8 +182,9 @@ rtmp {
 
             wait_key on;
             wait_video on;
+            interleave on;
+            sync 200ms;
 
-            # limit_rate 3k;
         }
 
         application vod {
