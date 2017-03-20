@@ -17,6 +17,9 @@ echo "rtmp://{ipadress}:{port}/player/{your-stream-name}"
 echo -n "hls_playlist = "
 echo "http://{ipadress}:{port}/hls/{your-stream-name}.m3u8"
 
+echo -n "vod_url = "
+echo "http://{ipadress}:{port}/vod/"
+
 echo -n "info_url = "
 echo "http://{ipadress}:{port}/p/${INFO_TOKEN}/info"
 
