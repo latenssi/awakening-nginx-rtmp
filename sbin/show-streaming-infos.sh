@@ -9,22 +9,22 @@ echo "Stream infos:"
 echo "---------------------------------------------------"
 
 echo -n "stream_url = "
-echo "rtmp://{ipadress}:{port}/pub_${LIVE_SECRET}/{your-stream-name}"
+echo "rtmp://{ipadress}:{rtmp-port}/pub_${LIVE_SECRET}/{your-stream-name}"
 
 echo -n "player_url = "
-echo "rtmp://{ipadress}:{port}/player/{your-stream-name}"
+echo "rtmp://{ipadress}:{rtmp-port}/player/{your-stream-name}"
 
 echo -n "hls_playlist = "
-echo "http://{ipadress}:{port}/hls/{your-stream-name}.m3u8"
+echo "http://{ipadress}:{http-port}/hls/{your-stream-name}.m3u8"
 
 echo -n "vod_url = "
-echo "http://{ipadress}:{port}/vod/"
+echo "http://{ipadress}:{http-port}/vod/"
 
 echo -n "info_url = "
-echo "http://{ipadress}:{port}/p/${INFO_TOKEN}/info"
+echo "http://{ipadress}:{http-port}/p/${INFO_TOKEN}/info"
 
 echo -n "stats_url = "
-echo "http://{ipadress}:{port}/p/${STATS_TOKEN}/stats"
+echo "http://{ipadress}:{http-port}/p/${STATS_TOKEN}/stats"
 
 echo -n "control_url = "
-echo "http://{ipadress}:{port}/p/${CTRL_TOKEN}/control"
+echo "http://{ipadress}:{http-port}/p/${CTRL_TOKEN}/control"
