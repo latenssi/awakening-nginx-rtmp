@@ -30,6 +30,10 @@ http {
 			root /www;
 		}
 
+        location /vod {
+            root /recordings;
+        }
+
 		location /hls {
             types {
                 application/vnd.apple.mpegurl m3u8;
