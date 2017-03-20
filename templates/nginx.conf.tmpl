@@ -23,18 +23,19 @@ http {
 
     keepalive_timeout  65;
 
-	server {
-		listen 80;
+    server {
+        listen 80;
 
-		location / {
-			root /www;
-		}
+        location / {
+            root /www;
+        }
 
         location /vod {
             root /recordings;
+            autoindex on;
         }
 
-		location /hls {
+        location /hls {
             types {
                 application/vnd.apple.mpegurl m3u8;
             }
@@ -110,7 +111,7 @@ http {
                 return 204;
             }
 {{end}}
-		}
+        }
 
         location /p/ {
             secure_link_secret "{{getv "/live/secret"}}";
@@ -131,11 +132,6 @@ http {
             internal;
             rtmp_stat all;
             rtmp_stat_stylesheet /info.xsl;
-        }
-
-        location /secure/control {
-            internal;
-            rtmp_control all;
         }
 
         location /info.xsl {
@@ -186,6 +182,8 @@ rtmp {
 
             wait_key on;
             wait_video on;
+
+            # limit_rate 3k;
         }
 
         application vod {
