@@ -22,6 +22,16 @@ if [ -z "$ETCD_URL" ]; then
         export LIVE_CORS="$CORS_HTTP_ORIGIN"
     fi
 
+    if [ ! -z "$LIVE_DOWNSAMPLING_VIDEO_BITRATE" -a -z "$LIVE_DOWNSAMPLING_AUDIO_BITRATE" ]; then
+        echo "[awakening-nginx-rtmp] error: specify also LIVE_DOWNSAMPLING_AUDIO_BITRATE"
+        exit 1
+    fi
+
+    if [ ! -z "$LIVE_DOWNSAMPLING_AUDIO_BITRATE" -a -z "$LIVE_DOWNSAMPLING_VIDEO_BITRATE" ]; then
+        echo "[awakening-nginx-rtmp] error: specify also LIVE_DOWNSAMPLING_VIDEO_BITRATE"
+        exit 1
+    fi
+
     echo "[awakening-nginx-rtmp] rendering configuration from environment variables..."
     confd -onetime -backend env
 
@@ -36,7 +46,6 @@ else
 fi
 
 echo "The server is now ready to accept your rtmp stream !"
-
 /usr/sbin/show-streaming-infos.sh
 
 exec $@

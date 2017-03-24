@@ -3,7 +3,7 @@ MAINTAINER Reid Burke <me@reidburke.com>
 
 RUN apt-get -q -y update \
     && apt-get -q -y install cron logrotate make build-essential libssl-dev \
-        zlib1g-dev libpcre3 libpcre3-dev curl pgp yasm \
+        zlib1g-dev libpcre3 libpcre3-dev curl pgp yasm bc \
     && apt-get -q -y build-dep nginx \
     && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
@@ -87,6 +87,9 @@ ADD sbin/confd-reload-nginx.sh /usr/sbin/confd-reload-nginx.sh
 
 COPY sbin/show-streaming-infos.sh /usr/sbin/
 RUN chmod a+x /usr/sbin/show-streaming-infos.sh
+
+COPY sbin/bw-limiter-wrapper.sh /usr/sbin
+RUN chmod a+x /usr/sbin/bw-limiter-wrapper.sh
 
 EXPOSE 80
 EXPOSE 1935

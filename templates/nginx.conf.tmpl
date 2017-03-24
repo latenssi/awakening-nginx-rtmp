@@ -170,6 +170,12 @@ rtmp {
                 {{range getvs "/live/variants/*"}}{{ $rates := split . ":" }}-s {{index $rates 0}} -c:a libfdk_aac -b:a {{index $rates 2}}k  -c:v libx264 -b:v {{index $rates 1}}k  -f flv rtmp://localhost/hls/$name_{{index $rates 1}}
                 {{end}}{{range getvs "/live/downstreams/*"}}-c:a copy -c:v copy -f flv {{.}}
                 {{end}};
+
+            {{if exists "/live/downsampling/video/bitrate"}}
+            exec /usr/sbin/bw-limiter-wrapper.sh {{getv "/live/downsampling/video/bitrate"}} {{getv "/live/downsampling/audio/bitrate"}} rtmp://localhost/pub_{{getv "/live/secret"}}/$name rtmp://localhost/player/$name_downsample;
+            exec_kill_signal term;
+            {{end}}
+
         }
 
         application player {
@@ -183,7 +189,6 @@ rtmp {
             wait_key on;
             wait_video on;
             interleave on;
-            sync 200ms;
 
         }
 
