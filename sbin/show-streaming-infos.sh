@@ -28,7 +28,4 @@ echo "\"http://{ipadress}:{http-port}/p/${INFO_TOKEN}/info\","
 echo -n '"stats_url": '
 echo "\"http://{ipadress}:{http-port}/p/${STATS_TOKEN}/stats\","
 
-echo -n '"control_url": '
-echo "\"http://{ipadress}:{http-port}/p/${CTRL_TOKEN}/control\""
-
 echo '}'
