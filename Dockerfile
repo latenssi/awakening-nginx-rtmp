@@ -1,5 +1,5 @@
 FROM ubuntu:14.04
-MAINTAINER Reid Burke <me@reidburke.com>
+MAINTAINER webofmars <contact@webofmars.com>
 
 RUN apt-get -q -y update \
     && apt-get -q -y install cron logrotate make build-essential libssl-dev \
