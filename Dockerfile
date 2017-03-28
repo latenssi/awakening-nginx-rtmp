@@ -31,9 +31,9 @@ RUN useradd -m -g nginx nginx
 RUN mkdir -p /var/log/nginx /var/cache/nginx
 
 RUN cd /root && curl -L https://github.com/arut/nginx-rtmp-module/archive/v1.1.11.tar.gz > nginx-rtmp.tgz \
-    && mkdir nginx-rtmp && tar xzf nginx-rtmp.tgz -C nginx-rtmp --strip 1 && cd - && rm -rf /root/*
+    && mkdir nginx-rtmp && tar xzf nginx-rtmp.tgz -C nginx-rtmp --strip 1 && cd -
 
-RUN mkdir /www && cp /root/nginx-rtmp/stat.xsl /www/info.xsl && chown -R nginx:nginx /www
+RUN mkdir /www && cp /root/nginx-rtmp/stat.xsl /www/info.xsl && chown -R nginx:nginx /www && cd - && rm -rf /root/*
 
 RUN cd /root \
     && curl -L -O http://nginx.org/download/nginx-1.8.1.tar.gz \
