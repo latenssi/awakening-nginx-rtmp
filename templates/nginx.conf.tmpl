@@ -43,7 +43,7 @@ http {
             root /tmp;
             add_header Cache-Control no-cache;
 
-{{if exists "/live/cors"}}
+{{if (exists "/live/cors"}})
             # CORS
             # based on: https://gist.github.com/algal/5480916
             # based on: https://gist.github.com/alexjs/4165271
@@ -51,7 +51,7 @@ http {
             # if the request included an Origin: header with an origin on the whitelist,
             # then it is some kind of CORS request.
 
-            if ($http_origin ~* ${{getv "/live/cors"}}) {
+            if ($http_origin ~* ({{getv "/live/cors"}})) {
                 set $cors "true";
             }
 
