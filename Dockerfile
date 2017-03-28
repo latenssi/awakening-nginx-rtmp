@@ -96,3 +96,6 @@ VOLUME /recordings
 
 ENTRYPOINT ["/usr/sbin/entrypoint.sh"]
 CMD ["/usr/sbin/nginx", "-c", "/etc/nginx/nginx.conf"]
+
+HEALTHCHECK --interval=5m --timeout=3s \
+  CMD curl -f http://localhost/ || exit 1
