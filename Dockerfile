@@ -1,13 +1,13 @@
 FROM ubuntu:14.04
 MAINTAINER webofmars <contact@webofmars.com>
 
-RUN export DEBIAN_FRONTEND=non-interactive
+RUN export DEBIAN_FRONTEND="noninteractive"
 
-RUN apt-get -q -y update > /dev/null \
-    && apt-get -q -y install cron logrotate make build-essential libssl-dev \
+RUN apt-get -yqq update > /dev/null \
+    && apt-get -yqq install cron logrotate make build-essential libssl-dev \
         zlib1g-dev libpcre3 libpcre3-dev curl pgp yasm \
-    && apt-get -q -y build-dep nginx \
-    && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
+    && apt-get -yqq build-dep nginx \
+    && apt-get -yqq clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 RUN cd /root \
     && curl -L https://downloads.sourceforge.net/project/opencore-amr/fdk-aac/fdk-aac-0.1.4.tar.gz > fdk-aac.tgz \
