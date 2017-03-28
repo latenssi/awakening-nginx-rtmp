@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 MAINTAINER webofmars <contact@webofmars.com>
 
-RUN export DEBIAN_FRONTEND="noninteractive"
+ENV DEBIAN_FRONTEND: "noninteractive"
 
 RUN apt-get -yqq update > /dev/null \
     && apt-get -yqq install cron logrotate make build-essential libssl-dev \
