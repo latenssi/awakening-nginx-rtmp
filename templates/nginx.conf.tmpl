@@ -43,7 +43,7 @@ http {
             root /tmp;
             add_header Cache-Control no-cache;
 
-{{if (exists "/live/cors"}})
+{{if exists "/live/cors"}}
             # CORS
             # based on: https://gist.github.com/algal/5480916
             # based on: https://gist.github.com/alexjs/4165271
