@@ -77,8 +77,8 @@ RUN cd /root \
 RUN cd /root && curl -L https://github.com/kelseyhightower/confd/releases/download/v0.12.0-alpha3/confd-0.12.0-alpha3-linux-amd64 > confd \
     && mv confd /usr/local/bin/confd && chmod +x /usr/local/bin/confd && cd - && rm -rf /root/*
 
-ADD templates/nginx.conf.tmpl /etc/confd/templates/nginx.conf.tmpl
-ADD conf.d/nginx.toml /etc/confd/conf.d/nginx.toml
+COPY templates/nginx.conf.tmpl /etc/confd/templates/nginx.conf.tmpl
+COPY conf.d/nginx.toml /etc/confd/conf.d/nginx.toml
 
 RUN ldconfig
 
