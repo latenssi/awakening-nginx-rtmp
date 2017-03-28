@@ -1,7 +1,9 @@
 FROM ubuntu:14.04
 MAINTAINER webofmars <contact@webofmars.com>
 
-RUN apt-get -q -y update \
+RUN export DEBIAN_FRONTEND=non-interactive
+
+RUN apt-get -q -y update > /dev/null \
     && apt-get -q -y install cron logrotate make build-essential libssl-dev \
         zlib1g-dev libpcre3 libpcre3-dev curl pgp yasm \
     && apt-get -q -y build-dep nginx \
