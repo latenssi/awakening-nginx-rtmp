@@ -16,16 +16,16 @@ echo "\"rtmp://{ipadress}:{rtmp-port}/pub_${LIVE_SECRET}/{your-stream-name}\","
 echo -n '"player_url": '
 echo "\"rtmp://{ipadress}:{rtmp-port}/player/{your-stream-name}\","
 
-echo -n '"hls_playlist": '
-echo "\"http://{ipadress}:{http-port}/hls/{your-stream-name}.m3u8\","
-
 echo -n '"vod_url": '
 echo "\"http://{ipadress}:{http-port}/vod/\","
+
+echo -n '"hls_playlist": '
+echo "\"http://{ipadress}:{http-port}/hls/{your-stream-name}.m3u8\","
 
 echo -n '"info_url": '
 echo "\"http://{ipadress}:{http-port}/p/${INFO_TOKEN}/info\","
 
 echo -n '"stats_url": '
-echo "\"http://{ipadress}:{http-port}/p/${STATS_TOKEN}/stats\","
+echo "\"http://{ipadress}:{http-port}/p/${STATS_TOKEN}/stats\""
 
 echo '}'
