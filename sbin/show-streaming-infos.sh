@@ -26,6 +26,10 @@ echo -n '"info_url": '
 echo "\"http://{ipadress}:{http-port}/p/${INFO_TOKEN}/info\","
 
 echo -n '"stats_url": '
-echo "\"http://{ipadress}:{http-port}/p/${STATS_TOKEN}/stats\""
+echo "\"http://{ipadress}:{http-port}/p/${STATS_TOKEN}/stats\","
+
+# control_url for backward compatibility (gui needs it)
+echo -n '"control_url": '
+echo "\"not available\""
 
 echo '}'
