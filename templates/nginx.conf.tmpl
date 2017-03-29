@@ -159,8 +159,8 @@ rtmp {
 
             record all;
             record_path /recordings;
-            # append current timestamp to each flv
-            record_unique on;
+            record_lock on;
+            record_suffix -%Y-%m-%d_%H-%M-%S.flv;
 
             drop_idle_publisher 120s;
             allow play 127.0.0.1;
