@@ -1,35 +1,37 @@
 FROM ubuntu:14.04
-MAINTAINER Reid Burke <me@reidburke.com>
+MAINTAINER webofmars <contact@webofmars.com>
 
-RUN apt-get -q -y update \
-    && apt-get -q -y install cron logrotate make build-essential libssl-dev \
+ENV DEBIAN_FRONTEND "noninteractive"
+
+RUN apt-get -yqq update > /dev/null \
+    && apt-get -yqq install cron logrotate make build-essential libssl-dev \
         zlib1g-dev libpcre3 libpcre3-dev curl pgp yasm \
-    && apt-get -q -y build-dep nginx \
-    && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
+    && apt-get -yqq build-dep nginx \
+    && apt-get -yqq clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 RUN cd /root \
     && curl -L https://downloads.sourceforge.net/project/opencore-amr/fdk-aac/fdk-aac-0.1.4.tar.gz > fdk-aac.tgz \
     && mkdir fdk-aac && tar xzf fdk-aac.tgz -C fdk-aac --strip 1 && cd fdk-aac \
-    && ./configure && make install
+    && ./configure && make install && cd - && rm -rf /root/*
 
 RUN cd /root \
     && curl -L ftp://ftp.videolan.org/pub/x264/snapshots/x264-snapshot-20160225-2245.tar.bz2 > x264.tar.bz2 \
     && mkdir x264 && tar xjf x264.tar.bz2 -C x264 --strip 1 && cd x264 \
-    && ./configure --enable-static && make install
+    && ./configure --enable-static && make install && cd - && rm -rf /root/*
 
 RUN cd /root \
     && curl -L https://libav.org/releases/libav-11.4.tar.gz > libav.tgz \
     && mkdir libav && tar xzf libav.tgz -C libav --strip 1 && cd libav \
     && ./configure --enable-gpl --enable-nonfree \
         --enable-libfdk-aac --enable-libx264 \
-    && make install
+    && make install && cd - && rm -rf /root/*
 
 RUN groupadd nginx
 RUN useradd -m -g nginx nginx
 RUN mkdir -p /var/log/nginx /var/cache/nginx
 
 RUN cd /root && curl -L https://github.com/arut/nginx-rtmp-module/archive/v1.1.11.tar.gz > nginx-rtmp.tgz \
-    && mkdir nginx-rtmp && tar xzf nginx-rtmp.tgz -C nginx-rtmp --strip 1 
+    && mkdir nginx-rtmp && tar xzf nginx-rtmp.tgz -C nginx-rtmp --strip 1 && cd -
 
 RUN mkdir /www && cp /root/nginx-rtmp/stat.xsl /www/info.xsl && chown -R nginx:nginx /www
 
@@ -72,13 +74,13 @@ RUN cd /root \
         --with-file-aio \
         --add-module=/root/nginx-rtmp \
         --with-ipv6 \
-   && make install
+   && make install && cd - && rm -rf /root/*
 
 RUN cd /root && curl -L https://github.com/kelseyhightower/confd/releases/download/v0.12.0-alpha3/confd-0.12.0-alpha3-linux-amd64 > confd \
-    && mv confd /usr/local/bin/confd && chmod +x /usr/local/bin/confd
+    && mv confd /usr/local/bin/confd && chmod +x /usr/local/bin/confd && cd - && rm -rf /root/*
 
-ADD templates/nginx.conf.tmpl /etc/confd/templates/nginx.conf.tmpl
-ADD conf.d/nginx.toml /etc/confd/conf.d/nginx.toml
+COPY templates/nginx.conf.tmpl /etc/confd/templates/nginx.conf.tmpl
+COPY conf.d/nginx.toml /etc/confd/conf.d/nginx.toml
 
 RUN ldconfig
 
@@ -96,3 +98,6 @@ VOLUME /recordings
 
 ENTRYPOINT ["/usr/sbin/entrypoint.sh"]
 CMD ["/usr/sbin/nginx", "-c", "/etc/nginx/nginx.conf"]
+
+HEALTHCHECK --interval=1m --timeout=1s \
+  CMD curl -f http://localhost/vod/ || exit 1

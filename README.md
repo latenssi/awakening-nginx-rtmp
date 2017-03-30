@@ -13,6 +13,11 @@ They are under active development and may change or be removed.
 
 The variants option allows for customization beyond the default encoder settings:
 
+ - `LIVE_HLS_SUPPORT`: enable or disable HLS support in config
+
+HLS is enabled if this variable exists.
+
+
  - `LIVE_VARIANTS_{name}`: Represents video and audio transcoding
     rates and the associated HLS variant bandwidth.
     These settings will depend on your hardware capability and desired quality.

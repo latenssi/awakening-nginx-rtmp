@@ -31,10 +31,11 @@ http {
         }
 
         location /vod {
-            root /recordings;
+            alias /recordings;
             autoindex on;
         }
 
+{{if exists "/live/hls/support"}}
         location /hls {
             types {
                 application/vnd.apple.mpegurl m3u8;
@@ -43,7 +44,7 @@ http {
             root /tmp;
             add_header Cache-Control no-cache;
 
-{{if exists "/live/cors"}}
+    {{if exists "/live/cors"}}
             # CORS
             # based on: https://gist.github.com/algal/5480916
             # based on: https://gist.github.com/alexjs/4165271
@@ -51,7 +52,7 @@ http {
             # if the request included an Origin: header with an origin on the whitelist,
             # then it is some kind of CORS request.
 
-            if ($http_origin ~* ${{getv "/live/cors"}}) {
+            if ($http_origin ~* ({{getv "/live/cors"}})) {
                 set $cors "true";
             }
 
@@ -110,8 +111,9 @@ http {
                 # indicate successful return with no content
                 return 204;
             }
-{{end}}
+    {{end}}
         }
+{{end}}
 
         location /p/ {
             secure_link_secret "{{getv "/live/secret"}}";
@@ -159,17 +161,19 @@ rtmp {
 
             record all;
             record_path /recordings;
-            # append current timestamp to each flv
-            record_unique on;
+            record_lock on;
+            record_suffix -%Y-%m-%d_%H-%M-%S.flv;
 
             drop_idle_publisher 120s;
             allow play 127.0.0.1;
             deny play all;
 
+{{if exists "/live/hls/support"}}
             exec_push /usr/local/bin/avconv -i rtmp://localhost/pub_{{getv "/live/secret"}}/$name
                 {{range getvs "/live/variants/*"}}{{ $rates := split . ":" }}-s {{index $rates 0}} -c:a libfdk_aac -b:a {{index $rates 2}}k  -c:v libx264 -b:v {{index $rates 1}}k  -f flv rtmp://localhost/hls/$name_{{index $rates 1}}
                 {{end}}{{range getvs "/live/downstreams/*"}}-c:a copy -c:v copy -f flv {{.}}
                 {{end}};
+{{end}}
         }
 
         application player {
@@ -191,6 +195,7 @@ rtmp {
             play /recordings;
         }
 
+{{if exists "/live/hls/support"}}
         application hls {
             live on;
             allow publish 127.0.0.1;
@@ -206,6 +211,7 @@ rtmp {
             hls_variant _{{index $rates 1}}   BANDWIDTH={{index $rates 3}};
             {{end}}
         }
+{{end}}
 
     }
 }
