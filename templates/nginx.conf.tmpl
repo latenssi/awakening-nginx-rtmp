@@ -117,7 +117,8 @@ http {
 
         location /p/ {
             secure_link_secret "{{getv "/live/secret"}}";
-
+            add_header Access-Control-Allow-Origin *;
+            
             if ($secure_link = "") {
                 return 403;
             }
@@ -126,11 +127,13 @@ http {
         }
 
         location /secure/stat {
+            add_header Access-Control-Allow-Origin *;
             internal;
             rtmp_stat all;
         }
 
         location /secure/info {
+            add_header Access-Control-Allow-Origin *;
             internal;
             rtmp_stat all;
             rtmp_stat_stylesheet /info.xsl;
